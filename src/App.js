@@ -1,24 +1,26 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Navigation from './components/Navigation';
-import Home from './pages/Home';
-import Products from './components/Products';
-import About from './pages/About';
-import './App.css';
+import React ,{useState}from 'react'
 
-function App() {
+const App = () => {
+
+  const [movies , setMovies] = useState([])
+
+  function fetchMoviesHandler(){
+    fetch('https://swapi.dev/api/films').then(response =>{
+      response.json();
+    }).then(data =>{
+      setMovies(data.results);
+    });
+  }
   return (
-    <>
-      <Navigation />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/store" element={<Products />} />
-        <Route path="/about" element={<About />} />
-      </Routes>
-    </>
-  );
+    <React.Fragment>
+      <section>
+    <button> Fetch Movies</button>
+      </section>
+      <section>
+      <MoviesList movies ={movies} />
+      </section>
+    </React.Fragment>
+  )
 }
 
-export default App;
-
-//code for E Commerce App from Sharpener
+export default App 
