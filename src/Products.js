@@ -3,29 +3,12 @@ import { Container, Row, Col, Card, Button, Nav } from 'react-bootstrap';
 import { BsCart3 } from 'react-icons/bs';
 import Cart from './Cart';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useCart } from './context/CartContext';
 
 const Products = () => {
-  const [showCart, setShowCart] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
-
-  const addToCart = (product) => {
-    setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.title === product.title);
-      if (existingItem) {
-        return prevItems.map(item =>
-          item.title === product.title 
-            ? { ...item, quantity: item.quantity + 1 } 
-            : item
-        );
-      }
-      return [...prevItems, { ...product, quantity: 1 }];
-    });
-  };
-
-  const handleRemoveFromCart = (index) => {
-    setCartItems(prevItems => prevItems.filter((_, i) => i !== index));
-  };
-
+    const [showCart, setShowCart] = useState(false);
+    const { addToCart, cartItemCount } = useCart();
+ 
   const productsArr = [
     {
       title: 'Colors',
@@ -70,12 +53,12 @@ const Products = () => {
       <div className="bg-secondary py-4 position-relative">
         <h1 className="text-white m-0 text-center">The Generics</h1>
         <Button 
-          variant="outline-light" 
-          onClick={() => setShowCart(true)}
-          className="position-absolute end-0 top-50 translate-middle-y me-3 d-flex align-items-center"
-        >
-          <BsCart3 className="me-2" />
-          Cart
+             variant="outline-light" 
+              onClick={() => setShowCart(true)}
+            className="position-absolute end-0 top-50 translate-middle-y me-3 d-flex align-items-center"
+            >
+        <BsCart3 className="me-2" />
+        Cart {cartItemCount > 0 && <span className="badge bg-danger ms-1">{cartItemCount}</span>}
         </Button>
       </div>
 
@@ -94,12 +77,12 @@ const Products = () => {
                   <Card.Title className="fs-5">{product.title}</Card.Title>
                   <Card.Text className="fs-5">${product.price}</Card.Text>
                   <Button 
-                    variant="warning" 
-                    className="w-100 text-uppercase fw-bold text-dark"
-                    onClick={() => addToCart(product)}
-                  >
+                     variant="warning" 
+                     className="w-100 text-uppercase fw-bold text-dark"
+                     onClick={() => addToCart(product)}
+                     >
                     Add to Cart
-                  </Button>
+                 </Button>
                 </Card.Body>
               </Card>
             </Col>
