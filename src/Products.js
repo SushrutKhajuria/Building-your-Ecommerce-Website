@@ -1,51 +1,99 @@
-
-import React from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Container, Row, Col, Card, Button, Navbar, Nav } from 'react-bootstrap';
+import { BsCart3 } from 'react-icons/bs';
+import Cart from './Cart';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Products = () => {
- const products = [
-  {
-   title: 'Album1',
-   price: 12.99,
-   imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%201.png',
-  },
-  {
-   title: 'Album 2',
-   price: 14.99,
-   imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%202.png',
-  },
-  {
-   title: 'Album 3',
-   price: 9.99,
-   imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%203.png',
-  },
-  {
-   title: 'Album 4',
-   price: 19.99,
-   imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%204.png',
-  }
- ];
- return (
-  <Container>
-   <h1 style={{textAlign: 'center', marginTop: '20px'}}>The Generics</h1>
-   <h2 style={{textAlign: 'center', marginBottom: '30px'}}>Music</h2>
-   <Row>
-    {products.map((product, index) => (
-     <Col key={index} md={3} sm={6} xs={12}>
-      <Card style={{marginBottom: '20px'}}>
-       <Card.Img variant="top" src={product.imageUrl} />
-       <Card.Body>
-        <Card.Title>{product.title}</Card.Title>
-        <Card.Text>${product.price}</Card.Text>
-        <Button variant="primary">Add to Cart</Button>
-       </Card.Body>
-      </Card>
-     </Col>
-    ))}
-   </Row>
-  </Container>
- );
+  const [showCart, setShowCart] = useState(false);
+
+  const productsArr = [
+    {
+      title: 'Colors',
+      price: 100,
+      imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%201.png',
+    },
+    {
+      title: 'Black and white Colors',
+      price: 50,
+      imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%202.png',
+    },
+    {
+      title: 'Yellow and Black Colors',
+      price: 70,
+      imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%203.png',
+    },
+    {
+      title: 'Blue Color',
+      price: 100,
+      imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%204.png',
+    }
+  ];
+
+  return (
+    <>
+     
+      <div className="bg-dark py-2">
+        <Container>
+          <Nav className="justify-content-center">
+            <Nav.Item>
+              <Nav.Link href="#" className="text-white px-3">HOME</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link href="#" className="text-white px-3">STORE</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link href="#" className="text-white px-3">ABOUT</Nav.Link>
+            </Nav.Item>
+          </Nav>
+        </Container>
+      </div>
+
+      
+      <div className="bg-secondary py-4 d-flex justify-content-between align-items-center">
+  <div className="w-100 text-center">
+    <h1 className="text-white m-0 d-inline-block">The Generics</h1>
+  </div>
+  <Button 
+    variant="outline-light" 
+    onClick={() => setShowCart(true)}
+    className="d-flex align-items-center position-absolute end-0 me-3"
+  >
+    <BsCart3 className="me-2" />
+    Cart
+  </Button>
+</div>
+
+      <Container className="my-5">
+        <h2 className="text-center mb-5 fs-1">Music</h2>
+        <Row xs={1} md={2} lg={4} className="g-4">
+          {productsArr.map((product, index) => (
+            <Col key={index} className="d-flex">
+              <Card className="w-100 border-0 shadow-sm">
+                <Card.Img 
+                  variant="top" 
+                  src={product.imageUrl} 
+                  style={{ height: '250px', objectFit: 'cover' }}
+                />
+                <Card.Body className="text-center">
+                  <Card.Title className="fs-5">{product.title}</Card.Title>
+                  <Card.Text className="fs-5">${product.price}</Card.Text>
+                  <Button 
+                    variant="warning" 
+                    className="w-100 text-uppercase fw-bold text-dark"
+                  >
+                    Add to Cart
+                  </Button>
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+      </Container>
+
+      <Cart show={showCart} handleClose={() => setShowCart(false)} />
+    </>
+  );
 };
 
 export default Products;
