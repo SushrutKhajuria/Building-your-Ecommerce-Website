@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Card, Button, Nav } from 'react-bootstrap';
+// Add these two imports with your other react-bootstrap imports:
+import { Container, Row, Col, Card, Button, Nav, Navbar } from 'react-bootstrap';
 import { BsCart3 } from 'react-icons/bs';
-import Cart from './Cart';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { useCart } from '../context/CartContext';
+import Cart from './Cart'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Products = () => {
-    const [showCart, setShowCart] = useState(false);
-    const { addToCart, cartItemCount } = useCart();
- 
+  const [showCart, setShowCart] = useState(false);
+  const { addToCart, cartItemCount } = useCart();
+
   const productsArr = [
     {
       title: 'Colors',
@@ -34,33 +35,21 @@ const Products = () => {
 
   return (
     <>
-      <div className="bg-dark py-2">
+      <Navbar bg="dark" variant="dark" expand="lg" className="py-3">
         <Container>
-          <Nav className="justify-content-center">
-            <Nav.Item>
-              <Nav.Link href="#" className="text-white px-3">HOME</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link href="#" className="text-white px-3">STORE</Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link href="#" className="text-white px-3">ABOUT</Nav.Link>
-            </Nav.Item>
+          <Navbar.Brand href="#" className="mx-auto fs-1 fw-bold">The Generics</Navbar.Brand>
+          <Nav className="ms-auto">
+            <Button 
+              variant="outline-light" 
+              onClick={() => setShowCart(true)}
+              className="d-flex align-items-center"
+            >
+              <BsCart3 className="me-2" />
+              Cart {cartItemCount > 0 && <span className="badge bg-danger ms-1">{cartItemCount}</span>}
+            </Button>
           </Nav>
         </Container>
-      </div>
-
-      <div className="bg-secondary py-4 position-relative">
-        <h1 className="text-white m-0 text-center">The Generics</h1>
-        <Button 
-             variant="outline-light" 
-              onClick={() => setShowCart(true)}
-            className="position-absolute end-0 top-50 translate-middle-y me-3 d-flex align-items-center"
-            >
-        <BsCart3 className="me-2" />
-        Cart {cartItemCount > 0 && <span className="badge bg-danger ms-1">{cartItemCount}</span>}
-        </Button>
-      </div>
+      </Navbar>
 
       <Container className="my-5">
         <h2 className="text-center mb-5 fs-1">Music</h2>
@@ -77,12 +66,12 @@ const Products = () => {
                   <Card.Title className="fs-5">{product.title}</Card.Title>
                   <Card.Text className="fs-5">${product.price}</Card.Text>
                   <Button 
-                     variant="warning" 
-                     className="w-100 text-uppercase fw-bold text-dark"
-                     onClick={() => addToCart(product)}
-                     >
+                    variant="warning" 
+                    className="w-100 text-uppercase fw-bold text-dark"
+                    onClick={() => addToCart(product)}
+                  >
                     Add to Cart
-                 </Button>
+                  </Button>
                 </Card.Body>
               </Card>
             </Col>
@@ -90,12 +79,7 @@ const Products = () => {
         </Row>
       </Container>
 
-      <Cart 
-        show={showCart} 
-        handleClose={() => setShowCart(false)} 
-        cartItems={cartItems}
-        handleRemove={handleRemoveFromCart}
-      />
+      <Cart show={showCart} handleClose={() => setShowCart(false)} />
     </>
   );
 };

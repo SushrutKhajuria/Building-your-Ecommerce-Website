@@ -1,0 +1,26 @@
+.home-page {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+  }
+  
+  .hero-section {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                url('https://prasadyash2411.github.io/ecom-website/img/hero.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 150px 0;
+    margin-bottom: 50px;
+  }
+  
+  .tours-table {
+    max-width: 800px;
+  }
+  
+  .tour-item {
+    align-items: center;
+  }
+  
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
