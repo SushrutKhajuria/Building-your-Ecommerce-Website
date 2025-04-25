@@ -1,13 +1,23 @@
 import React from 'react';
-import Products from './Products';
+import { Routes, Route } from 'react-router-dom';
+import Navigation from './components/Navigation';
+import Home from './pages/Home';
+import About from './pages/About';
 import './App.css';
 
-const App = () => {
+function App() {
   return (
-    <div>
-      <Products />
-    </div>
+    <>
+      <Navigation />
+      <main className="main-content">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/store" element={<Home />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </main>
+    </>
   );
-};
+}
 
-export default App;  
+export default App;

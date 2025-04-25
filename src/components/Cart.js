@@ -1,6 +1,6 @@
 import React from 'react';
 import { Offcanvas, Table, Button } from 'react-bootstrap';
-import { useCart } from './context/CartContext';
+import { useCart } from '../context/CartContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Cart = ({ show, handleClose }) => {

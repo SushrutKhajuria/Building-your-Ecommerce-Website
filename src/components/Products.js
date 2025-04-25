@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Button, Nav } from 'react-bootstrap';
 import { BsCart3 } from 'react-icons/bs';
 import Cart from './Cart';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useCart } from './context/CartContext';
+import { useCart } from '../context/CartContext';
 
 const Products = () => {
     const [showCart, setShowCart] = useState(false);
