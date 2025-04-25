@@ -83,3 +83,5 @@ const Cart = ({ show, handleClose }) => {
 };
 
 export default Cart;
+
+//code for E Commerce App from Sharpener

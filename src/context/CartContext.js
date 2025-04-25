@@ -33,3 +33,5 @@ export const CartProvider = ({ children }) => {
 };
 
 export const useCart = () => useContext(CartContext);
+
+//code for E Commerce App from Sharpener
