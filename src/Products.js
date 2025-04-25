@@ -1,11 +1,30 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Card, Button, Navbar, Nav } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Nav } from 'react-bootstrap';
 import { BsCart3 } from 'react-icons/bs';
 import Cart from './Cart';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Products = () => {
   const [showCart, setShowCart] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+
+  const addToCart = (product) => {
+    setCartItems(prevItems => {
+      const existingItem = prevItems.find(item => item.title === product.title);
+      if (existingItem) {
+        return prevItems.map(item =>
+          item.title === product.title 
+            ? { ...item, quantity: item.quantity + 1 } 
+            : item
+        );
+      }
+      return [...prevItems, { ...product, quantity: 1 }];
+    });
+  };
+
+  const handleRemoveFromCart = (index) => {
+    setCartItems(prevItems => prevItems.filter((_, i) => i !== index));
+  };
 
   const productsArr = [
     {
@@ -32,7 +51,6 @@ const Products = () => {
 
   return (
     <>
-     
       <div className="bg-dark py-2">
         <Container>
           <Nav className="justify-content-center">
@@ -49,20 +67,17 @@ const Products = () => {
         </Container>
       </div>
 
-      
-      <div className="bg-secondary py-4 d-flex justify-content-between align-items-center">
-  <div className="w-100 text-center">
-    <h1 className="text-white m-0 d-inline-block">The Generics</h1>
-  </div>
-  <Button 
-    variant="outline-light" 
-    onClick={() => setShowCart(true)}
-    className="d-flex align-items-center position-absolute end-0 me-3"
-  >
-    <BsCart3 className="me-2" />
-    Cart
-  </Button>
-</div>
+      <div className="bg-secondary py-4 position-relative">
+        <h1 className="text-white m-0 text-center">The Generics</h1>
+        <Button 
+          variant="outline-light" 
+          onClick={() => setShowCart(true)}
+          className="position-absolute end-0 top-50 translate-middle-y me-3 d-flex align-items-center"
+        >
+          <BsCart3 className="me-2" />
+          Cart
+        </Button>
+      </div>
 
       <Container className="my-5">
         <h2 className="text-center mb-5 fs-1">Music</h2>
@@ -81,6 +96,7 @@ const Products = () => {
                   <Button 
                     variant="warning" 
                     className="w-100 text-uppercase fw-bold text-dark"
+                    onClick={() => addToCart(product)}
                   >
                     Add to Cart
                   </Button>
@@ -91,7 +107,12 @@ const Products = () => {
         </Row>
       </Container>
 
-      <Cart show={showCart} handleClose={() => setShowCart(false)} />
+      <Cart 
+        show={showCart} 
+        handleClose={() => setShowCart(false)} 
+        cartItems={cartItems}
+        handleRemove={handleRemoveFromCart}
+      />
     </>
   );
 };
