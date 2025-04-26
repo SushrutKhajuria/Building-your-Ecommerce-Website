@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import MoviesList from './MoviesList'; // Make sure to import your MoviesList component
+import MoviesList from './MoviesList';
 
 const App = () => {
   const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function fetchMoviesHandler() {
+    setIsLoading(true);
     try {
       const response = await fetch('https://swapi.dev/api/films');
       const data = await response.json();
@@ -19,6 +21,8 @@ const App = () => {
       setMovies(transformedMovies);
     } catch (error) {
       console.error('Error fetching movies:', error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -28,7 +32,11 @@ const App = () => {
         <button onClick={fetchMoviesHandler}>Fetch Movies</button>
       </section>
       <section>
-        <MoviesList movies={movies} />
+        {isLoading ? (
+          <div className="loader">Loading...</div> // Add your loader component/style here
+        ) : (
+          <MoviesList movies={movies} />
+        )}
       </section>
     </React.Fragment>
   );
