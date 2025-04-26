@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import MoviesList from './MoviesList';
+import MoviesList from './components/MoviesList';
+import './App.css'; 
 
 const App = () => {
   const [movies, setMovies] = useState([]);
@@ -33,7 +34,7 @@ const App = () => {
       </section>
       <section>
         {isLoading ? (
-          <div className="loader">Loading...</div> // Add your loader component/style here
+          <div className="loader">Loading...</div> 
         ) : (
           <MoviesList movies={movies} />
         )}
