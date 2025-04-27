@@ -1,19 +1,19 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import { createRoot } from 'react-dom/client'; // 👈 NEW
 import { BrowserRouter } from 'react-router-dom';
+import { CartProvider } from './context/CartContext'; // 👈 NEW
 import App from './App';
-import { CartProvider } from './context/CartContext';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
 
-const root = createRoot(document.getElementById('root'));
+const container = document.getElementById('root');
+const root = createRoot(container);
+
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <CartProvider>
+    <CartProvider>
+      <BrowserRouter>
         <App />
-      </CartProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </CartProvider>
   </React.StrictMode>
 );
-
-//code for E Commerce App from Sharpener

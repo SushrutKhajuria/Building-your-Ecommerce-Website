@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-// Add these two imports with your other react-bootstrap imports:
 import { Container, Row, Col, Card, Button, Nav, Navbar } from 'react-bootstrap';
 import { BsCart3 } from 'react-icons/bs';
 import { useCart } from '../context/CartContext';
-import Cart from './Cart'; 
+import Cart from './Cart';
+import { Link } from 'react-router-dom'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Products = () => {
@@ -12,27 +12,31 @@ const Products = () => {
 
   const productsArr = [
     {
+      id: 1,
       title: 'Colors',
       price: 100,
-      imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%201.png',
+      imageUrl: 'https://via.placeholder.com/250x250.png?text=Album+1',
     },
     {
-      title: 'Black and white Colors',
+      id: 2,
+      title: 'Black and White Colors',
       price: 50,
-      imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%202.png',
+      imageUrl: 'https://via.placeholder.com/250x250.png?text=Album+2',
     },
     {
+      id: 3,
       title: 'Yellow and Black Colors',
       price: 70,
-      imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%203.png',
+      imageUrl: 'https://via.placeholder.com/250x250.png?text=Album+3',
     },
     {
+      id: 4,
       title: 'Blue Color',
       price: 100,
-      imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%204.png',
+      imageUrl: 'https://via.placeholder.com/250x250.png?text=Album+4',
     }
   ];
-
+  
   return (
     <>
       <Navbar bg="dark" variant="dark" expand="lg" className="py-3">
@@ -54,26 +58,32 @@ const Products = () => {
       <Container className="my-5">
         <h2 className="text-center mb-5 fs-1">Music</h2>
         <Row xs={1} md={2} lg={4} className="g-4">
-          {productsArr.map((product, index) => (
-            <Col key={index} className="d-flex">
-              <Card className="w-100 border-0 shadow-sm">
-                <Card.Img 
-                  variant="top" 
-                  src={product.imageUrl} 
-                  style={{ height: '250px', objectFit: 'cover' }}
-                />
-                <Card.Body className="text-center">
-                  <Card.Title className="fs-5">{product.title}</Card.Title>
-                  <Card.Text className="fs-5">${product.price}</Card.Text>
-                  <Button 
-                    variant="warning" 
-                    className="w-100 text-uppercase fw-bold text-dark"
-                    onClick={() => addToCart(product)}
-                  >
-                    Add to Cart
-                  </Button>
-                </Card.Body>
-              </Card>
+          {productsArr.map((product) => (
+            <Col key={product.id} className="d-flex">
+              <Link to={`/products/${product.id}`} className="text-decoration-none w-100">
+                <Card className="w-100 border-0 shadow-sm">
+                  <Card.Img 
+                    variant="top" 
+                    src={product.imageUrl} 
+                    style={{ height: '250px', objectFit: 'cover', cursor: 'pointer' }}
+                    alt={product.title}
+                  />
+                  <Card.Body className="text-center">
+                    <Card.Title className="fs-5">{product.title}</Card.Title>
+                    <Card.Text className="fs-5">${product.price}</Card.Text>
+                    <Button 
+                      variant="warning" 
+                      className="w-100 text-uppercase fw-bold text-dark"
+                      onClick={(e) => { 
+                        e.preventDefault(); 
+                        addToCart(product); 
+                      }}
+                    >
+                      Add to Cart
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Link>
             </Col>
           ))}
         </Row>
@@ -85,5 +95,3 @@ const Products = () => {
 };
 
 export default Products;
-
-//code for E Commerce App from Sharpener

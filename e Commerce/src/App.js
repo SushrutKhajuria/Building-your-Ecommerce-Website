@@ -1,26 +1,24 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom'; 
+import { Routes, Route } from 'react-router-dom';
+import Products from './components/Products';
+import ProductPage from './components/ProductPage';
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
-import Store from './pages/Store';
 import About from './pages/About';
 import ContactUs from './pages/ContactUs';
-import { CartProvider } from './context/CartContext';
-import './App.css';
 
 function App() {
   return (
-    <CartProvider>
+    <div>
       <Navigation />
-      <main>
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/store" component={Store} />
-          <Route path="/about" component={About} />
-          <Route path="/contact" component={ContactUs} />
-        </Switch>
-      </main>
-    </CartProvider>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/store" element={<Products />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/products/:id" element={<ProductPage />} />
+      </Routes>
+    </div>
   );
 }
 

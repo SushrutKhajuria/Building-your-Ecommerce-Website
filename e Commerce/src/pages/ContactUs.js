@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Form, Button } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +9,7 @@ const ContactUs = () => {
     phone: '',
     message: ''
   });
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +28,7 @@ const ContactUs = () => {
       if (!response.ok) throw new Error('Submission failed');
       
       alert('Thank you! We will contact you soon.');
-      history.push('/'); // Redirect to home after submission
+      navigate('/somewhere');
     } catch (error) {
       console.error('Error:', error);
       alert('Submission failed. Please try again.');
