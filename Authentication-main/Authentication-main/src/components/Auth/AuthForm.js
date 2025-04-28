@@ -1,34 +1,32 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
+import { AuthContext } from '../../store/auth-context';
 import classes from './AuthForm.module.css';
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
+  const authCtx = useContext(AuthContext);
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
-    setError(null); 
   };
 
   const submitHandler = async (event) => {
     event.preventDefault();
     setIsLoading(true);
-    setError(null);
-  
+
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
-  
+
     try {
       const url = isLogin
         ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAclndL_CUBso12JBTmsGUFUOUpe1mWJ38
 `
         : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAclndL_CUBso12JBTmsGUFUOUpe1mWJ38
 `;
-  
+
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -38,20 +36,18 @@ const AuthForm = () => {
           returnSecureToken: true,
         }),
       });
-  
+
       const data = await response.json();
-  
+
       if (!response.ok) {
         throw new Error(data.error.message || 'Authentication failed!');
       }
-  
-      
-      console.log('Login successful! ID Token:', data.idToken);
-  
+
+      // Store token in context
+      authCtx.login(data.idToken);
+
     } catch (err) {
-      // Show error alert 
-      alert(err.message || 'Authentication failed!');
-      setError(err.message);
+      alert(err.message);
     } finally {
       setIsLoading(false);
     }
@@ -69,7 +65,6 @@ const AuthForm = () => {
           <label htmlFor='password'>Your Password</label>
           <input type='password' id='password' required ref={passwordInputRef} />
         </div>
-        {error && <p className={classes.error}>{error}</p>}
         <div className={classes.actions}>
           {!isLoading && (
             <button
@@ -85,7 +80,7 @@ const AuthForm = () => {
               {isLogin ? 'Login' : 'Create Account'}
             </button>
           ) : (
-            <div className={classes.spinner}></div> 
+            <div className={classes.spinner}></div>
           )}
         </div>
       </form>
