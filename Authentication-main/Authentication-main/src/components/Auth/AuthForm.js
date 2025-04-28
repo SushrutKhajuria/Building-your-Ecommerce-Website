@@ -11,22 +11,24 @@ const AuthForm = () => {
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
-    setError(null); // Clear errors when switching modes
+    setError(null); 
   };
 
   const submitHandler = async (event) => {
     event.preventDefault();
     setIsLoading(true);
     setError(null);
-
+  
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
-
+  
     try {
       const url = isLogin
-        ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAclndL_CUBso12JBTmsGUFUOUpe1mWJ38`
-        : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAclndL_CUBso12JBTmsGUFUOUpe1mWJ38`;
-
+        ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAclndL_CUBso12JBTmsGUFUOUpe1mWJ38
+`
+        : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAclndL_CUBso12JBTmsGUFUOUpe1mWJ38
+`;
+  
       const response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -36,17 +38,20 @@ const AuthForm = () => {
           returnSecureToken: true,
         }),
       });
-
+  
       const data = await response.json();
-
+  
       if (!response.ok) {
         throw new Error(data.error.message || 'Authentication failed!');
       }
-
-      // Success - Handle redirect or state update here (if needed)
-
+  
+      
+      console.log('Login successful! ID Token:', data.idToken);
+  
     } catch (err) {
-      setError(err.message); // Show server error directly
+      // Show error alert 
+      alert(err.message || 'Authentication failed!');
+      setError(err.message);
     } finally {
       setIsLoading(false);
     }
@@ -80,7 +85,7 @@ const AuthForm = () => {
               {isLogin ? 'Login' : 'Create Account'}
             </button>
           ) : (
-            <div className={classes.spinner}></div> // Loader replaces button
+            <div className={classes.spinner}></div> 
           )}
         </div>
       </form>
