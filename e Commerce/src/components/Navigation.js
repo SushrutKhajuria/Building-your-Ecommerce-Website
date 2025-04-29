@@ -15,14 +15,21 @@ const Navigation = () => {
             <Nav.Item>
               <Nav.Link as={Link} to="/" className="text-white px-3">HOME</Nav.Link>
             </Nav.Item>
+            
             <Nav.Item>
               <Nav.Link as={Link} to="/store" className="text-white px-3">STORE</Nav.Link>
             </Nav.Item>
+
             <Nav.Item>
               <Nav.Link as={Link} to="/about" className="text-white px-3">ABOUT</Nav.Link>
             </Nav.Item>
+
             <Nav.Item>
               <Nav.Link as={Link} to="/contact" className="text-white px-3">CONTACT US</Nav.Link>
+            </Nav.Item>
+
+            <Nav.Item>
+              <Nav.Link as={Link} to="/login" className="text-white px-3">LOGIN</Nav.Link>
             </Nav.Item>
           </Nav>
         </Container>
