@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import ContactUs from './pages/ContactUs';
 import Login from './pages/Login'; 
+import ProtectedRoute from './components/ProtectedRoute';
 
 
 function App() {
@@ -15,15 +16,20 @@ function App() {
       <Navigation />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/store" element={<Products />} />
+        <Route 
+          path="/store" 
+          element={
+            <ProtectedRoute>
+              <Products />
+            </ProtectedRoute>
+          } 
+        />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/products/:id" element={<ProductPage />} />
-        <Route path="/login" element={<Login />} /> 
-
+        <Route path="/login" element={<Login />} />
       </Routes>
     </div>
   );
 }
-
 export default App;
