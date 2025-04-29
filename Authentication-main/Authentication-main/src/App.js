@@ -29,7 +29,7 @@ function App() {
         )}
         
         <Route path='*'>
-          <Redirect to='/' />
+          {authCtx.isLoggedIn ? <Redirect to='/' /> : <Redirect to='/auth' />}
         </Route>
       </Switch>
     </Layout>

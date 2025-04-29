@@ -1,4 +1,5 @@
 import { useState, useRef, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../../store/auth-context';
 import classes from './AuthForm.module.css';
 
@@ -8,6 +9,7 @@ const AuthForm = () => {
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
   const authCtx = useContext(AuthContext);
+  const history = useHistory();
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
@@ -22,10 +24,8 @@ const AuthForm = () => {
 
     try {
       const url = isLogin
-        ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAclndL_CUBso12JBTmsGUFUOUpe1mWJ38
-`
-        : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAclndL_CUBso12JBTmsGUFUOUpe1mWJ38
-`;
+        ? `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyAclndL_CUBso12JBTmsGUFUOUpe1mWJ38`
+        : `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyAclndL_CUBso12JBTmsGUFUOUpe1mWJ38`;
 
       const response = await fetch(url, {
         method: 'POST',
@@ -43,8 +43,9 @@ const AuthForm = () => {
         throw new Error(data.error.message || 'Authentication failed!');
       }
 
-      // Store token in context
-      authCtx.login(data.idToken);
+      // Set token with 5-minute expiration (300000ms)
+      authCtx.login(data.idToken, 300000);
+      history.replace('/');
 
     } catch (err) {
       alert(err.message);
