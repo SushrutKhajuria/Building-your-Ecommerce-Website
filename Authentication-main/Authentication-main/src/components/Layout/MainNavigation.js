@@ -8,23 +8,23 @@ const MainNavigation = () => {
   const history = useHistory();
 
   const logoutHandler = () => {
-    authCtx.logout();  
-    history.replace('/auth'); 
+    authCtx.logout();
+    history.replace('/auth');
   };
 
   return (
     <header className={classes.header}>
-      <Link to="/">
+      <Link to='/'>
         <div className={classes.logo}>React Auth</div>
       </Link>
       <nav>
         <ul>
           {!authCtx.isLoggedIn && (
-            <li><Link to="/auth">Login</Link></li>
+            <li><Link to='/auth'>Login</Link></li>
           )}
           {authCtx.isLoggedIn && (
             <>
-              <li><Link to="/profile">Profile</Link></li>
+              <li><Link to='/profile'>Profile</Link></li>
               <li><button onClick={logoutHandler}>Logout</button></li>
             </>
           )}
