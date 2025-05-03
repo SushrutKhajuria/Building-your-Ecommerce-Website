@@ -1,35 +1,38 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Products from './components/Products';
-import ProductPage from './components/ProductPage';
 import Navigation from './components/Navigation';
 import Home from './pages/Home';
-import About from './pages/About';
-import ContactUs from './pages/ContactUs';
-import Login from './pages/Login'; 
 import ProtectedRoute from './components/ProtectedRoute';
 
+const Products = lazy(() => import('./components/Products'));
+const ProductPage = lazy(() => import('./components/ProductPage'));
+const About = lazy(() => import('./pages/About'));
+const ContactUs = lazy(() => import('./pages/ContactUs'));
+const Login = lazy(() => import('./pages/Login'));
 
 function App() {
   return (
     <div>
       <Navigation />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route 
-          path="/store" 
-          element={
-            <ProtectedRoute>
-              <Products />
-            </ProtectedRoute>
-          } 
-        />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<ContactUs />} />
-        <Route path="/products/:id" element={<ProductPage />} />
-        <Route path="/login" element={<Login />} />
-      </Routes>
+      <Suspense fallback={<div className="text-center py-5">Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route 
+            path="/store" 
+            element={
+              <ProtectedRoute>
+                <Products />
+              </ProtectedRoute>
+            } 
+          />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path="/products/:id" element={<ProductPage />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 }
+
 export default App;
